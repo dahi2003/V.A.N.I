@@ -1,0 +1,13 @@
+# Python / Backend
+__pycache__/
+*.py[cod]
+venv/
+env/
+.env
+*.webm  # Whisper ki temporary audio files
+
+# Node / Frontend
+node_modules/
+dist/
+build/
+.DS_Store

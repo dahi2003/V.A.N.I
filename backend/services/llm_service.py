@@ -1,28 +1,34 @@
 import ollama
 
-def generate_speaker_summary(transcript_text: str) -> str:
-    """
-    Sends the compiled live meeting transcript to local Llama-3.2 for a structured summary.
-    """
-    if not transcript_text.strip():
-        return "No transcript data available to summarize. The meeting was silent."
+def generate_speaker_summary(full_transcript: str) -> str:
+    
+    system_prompt = """You are a highly professional meeting summarizer. 
+Your task is to analyze the following meeting transcript and extract the core technical and business value.
 
-    print("\n[LLM] Waking up Llama-3.2 for Live Meeting Summarization...")
-    
-    system_prompt = """
-    You are V.A.N.I., an expert executive meeting analyst. 
-    Read the following meeting transcript carefully. 
-    
-    Create a dedicated summary for EVERY individual speaker. 
-    For each speaker, explicitly list:
-    1. Key points discussed.
-    2. Action items or tasks they took responsibility for.
-    
-    Format the output cleanly using Markdown.
-    Crucial: First output the entire structured summary in English. Then, output the exact same structured summary translated into formal Hindi.
-    """
-    
+STRICT RULES:
+1. COMPLETELY IGNORE small talk, greetings, mic checks (e.g., 'hello', 'can you hear me', 'thank you'), and fragmented/random sentences.
+2. Focus ONLY on project details, technical terms (e.g., Python, FastAPI, React, LLM), decisions, and actionable items.
+3. DO NOT add any extra notes, explanations, or commentary at the end. Output exactly in the format requested.
+
+Output Format:
+**Summary**
+### [Speaker Name]
+* Key points discussed:
+  + [Point 1]
+  + [Point 2]
+* Action items:
+  + [Task 1]
+
+**Translated Summary in Formal Hindi**
+### [Speaker Name]
+* चर्चा के प्रमुख बिंदु:
+  + [Point 1]
+* कार्य निर्देश या जिम्मेदारी:
+  + [Task 1]
+"""
+
     try:
+       
         response = ollama.chat(model='llama3', messages=[
             {
                 'role': 'system',
@@ -30,7 +36,7 @@ def generate_speaker_summary(transcript_text: str) -> str:
             },
             {
                 'role': 'user',
-                'content': f"Here is the live meeting transcript:\n\n{transcript_text}"
+                'content': f"Here is the live meeting transcript:\n\n{full_transcript}"
             }
         ])
         

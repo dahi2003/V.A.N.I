@@ -2,13 +2,12 @@ import whisper
 import tempfile
 import os
 
+
+
 print("\n[AI ENGINE] Loading Whisper Model for Live Streaming...")
 model = whisper.load_model("small") 
 
 def process_audio_chunk(audio_bytes: bytes) -> str:
-    """
-    Frontend se aaye chhote audio chunk ko Whisper se text mein convert karta hai.
-    """
     if not audio_bytes:
         return ""
         
@@ -17,9 +16,20 @@ def process_audio_chunk(audio_bytes: bytes) -> str:
         temp_file_path = temp_audio.name
 
     try:
-        result = model.transcribe(temp_file_path, fp16=False)
+        result = model.transcribe(  # type: ignore
+            temp_file_path, 
+            fp16=False,
+            language="en",
+            temperature=0.0,
+            condition_on_previous_text=False,
+            no_speech_threshold=0.6,
+            initial_prompt="A professional meeting transcript discussing business, project updates, strategy, and technology."
+        )
+        
         raw_text = result.get("text", "")
-        text=str(raw_text).strip()
+        text = str(raw_text).strip()
+        
+        if len(text) < 2: return ""
         
         return text
         
