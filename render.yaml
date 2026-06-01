@@ -3,10 +3,11 @@ services:
   - type: web
     name: vani-backend
     env: python
+    pythonVersion: 3.11.8
     region: oregon
     plan: free
     rootDir: backend
-    buildCommand: pip install --upgrade pip && pip install -r backend/requirements.txt
+    buildCommand: pip install --upgrade pip setuptools wheel && pip install --only-binary :all: -r backend/requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DATABASE_URL
