@@ -1,0 +1,29 @@
+services:
+  # Backend API Service
+  - type: web
+    name: vani-backend
+    env: python
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        scope: build,runtime
+        value: sqlite:///./vani_meetings.db
+      - key: PYTHONUNBUFFERED
+        value: true
+
+  # Frontend Service (Static Site)
+  - type: static_site
+    name: vani-frontend
+    env: node
+    region: oregon
+    plan: free
+    rootDir: vani_frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://vani-backend.onrender.com
