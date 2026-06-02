@@ -70,19 +70,17 @@ class ConnectionManager:
                         )
                         db.add(new_transcript)
 
-                    # 3. AI Summary save karo
                     new_summary = Summary(
                         meeting_id=meeting_id, 
                         summary_text=summary
                     )
                     db.add(new_summary)
 
-                    # Sab kuch final save (commit) kardo
                     db.commit()
-                    print(f"✅ Data for {meeting_id} successfully saved to SQLite Database!")
+                    print(f"Data for {meeting_id} successfully saved to SQLite Database!")
 
                 except Exception as e:
-                    print(f"❌ Database Save Error: {e}")
+                    print(f"Database Save Error: {e}")
                     if 'db' in locals():
                         db.rollback()
                 finally:
@@ -98,7 +96,6 @@ class ConnectionManager:
                     del self.active_meetings[meeting_id]
 
     async def broadcast_transcript(self, meeting_id: str, user_name: str, text: str):
-        """Jab Whisper audio ko text banayega, toh yeh function us text ko sabhi users ki screen par bhej dega"""
         if meeting_id in self.active_meetings:
             self.meeting_transcripts[meeting_id].append({"user": user_name, "text": text})
             
@@ -110,15 +107,12 @@ class ConnectionManager:
                     print(f"Failed to send message to {user}: {e}")
 
     async def broadcast_webrtc_signal(self, meeting_id: str, sender_name: str, signal_data: dict):
-        """
-        WebRTC Signaling: Ek user ka Offer/Answer/ICE doosre users ko bhejna.
-        """
+     
         if meeting_id in self.active_meetings:
           
             signal_data['sender'] = sender_name
             
             for user, ws in self.active_meetings[meeting_id].items():
-                # Khud ko chhod kar baaki sab ko signal bhej do
                 if user != sender_name:
                     try:
                         await ws.send_json(signal_data)
