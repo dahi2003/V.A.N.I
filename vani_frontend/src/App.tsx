@@ -150,6 +150,22 @@ const App: React.FC = () => {
   // ==========================================
   // API FETCH LOGIC
   // ==========================================
+  async function queryModel(data: string) {
+    const response = await fetch(
+        "https://huggingface.co",
+        {
+            headers: { 
+                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_HF_TOKEN}`,
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify({ inputs: data }),
+        }
+    );
+
+    const result = await response.json();
+    return result;
+}
   const fetchMeetingsList = async () => {
     setIsLoadingHistory(true);
     try {
