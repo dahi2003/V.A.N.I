@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Mic, MicOff, Activity, Users, FileText, CheckCircle2, History, ArrowLeft, Calendar, Clock, Copy, LogOut, Video, VideoOff, MonitorUp } from 'lucide-react';
-import.meta.env.VITE_HF_TOKEN
+
 interface TranscriptMessage {
   user: string;
   text: string;
