@@ -1,0 +1,21 @@
+name: Sync to Hugging Face
+on:
+  push:
+    branches: [main, master] 
+
+jobs:
+  sync-to-hf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Push to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git remote add hf https://omy2003:$HF_TOKEN@huggingface.co/omy2003/V.A.N.I
+          git push --force hf HEAD:main
