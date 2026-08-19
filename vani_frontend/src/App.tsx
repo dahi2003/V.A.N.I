@@ -151,7 +151,7 @@ const App: React.FC = () => {
   // API FETCH LOGIC
   // ==========================================
 
-export async function queryModel(data: string) {
+ async function queryModel(data: string) {
     const response = await fetch(
         "https://api-inference.huggingface.co/models/omy2003/V.A.N.I",
         {
