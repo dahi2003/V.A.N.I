@@ -155,7 +155,7 @@ const App: React.FC = () => {
         "https://huggingface.co",
         {
             headers: { 
-                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_HF_TOKEN}`,
+                "Authorization": `Bearer ${import.meta.env.NEXT_PUBLIC_HF_TOKEN}`,
                 "Content-Type": "application/json"
             },
             method: "POST",
