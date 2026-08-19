@@ -150,7 +150,7 @@ const App: React.FC = () => {
   // ==========================================
   // API FETCH LOGIC
   // ==========================================
-  export async function queryModel(data: string) {
+ export async function queryModel(data: string) {
     const response = await fetch(
         "https://huggingface.co",
         {
@@ -162,10 +162,11 @@ const App: React.FC = () => {
             body: JSON.stringify({ inputs: data }),
         }
     );
-
     const result = await response.json();
     return result;
 }
+
+  
   const fetchMeetingsList = async () => {
     setIsLoadingHistory(true);
     try {
