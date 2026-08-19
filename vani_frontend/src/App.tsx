@@ -150,12 +150,13 @@ const App: React.FC = () => {
   // ==========================================
   // API FETCH LOGIC
   // ==========================================
- export async function queryModel(data: string) {
+
+export async function queryModel(data: string) {
     const response = await fetch(
-        "https://huggingface.co",
+        "https://api-inference.huggingface.co/models/omy2003/V.A.N.I",
         {
             headers: { 
-                "Authorization": `Bearer ${import.meta.env.NEXT_PUBLIC_HF_TOKEN}`,
+                "Authorization": `Bearer ${import.meta.env.VITE_HF_TOKEN}`,
                 "Content-Type": "application/json"
             },
             method: "POST",
