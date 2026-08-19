@@ -150,7 +150,7 @@ const App: React.FC = () => {
   // ==========================================
   // API FETCH LOGIC
   // ==========================================
-  async function queryModel(data: string) {
+  export async function queryModel(data: string) {
     const response = await fetch(
         "https://huggingface.co",
         {
