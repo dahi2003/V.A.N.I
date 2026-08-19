@@ -1,7 +1,7 @@
 name: Sync to Hugging Face
 on:
   push:
-    branches: [main, master] 
+    branches: [main, master]
 
 jobs:
   sync-to-hf:
@@ -17,5 +17,5 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git remote add hf https://omy2003:$HF_TOKEN@huggingface.co/omy2003/V.A.N.I
+          git remote add hf https://omy2003:$HF_TOKEN@huggingface.co/omy2003/V.A.N.I || git remote set-url hf https://omy2003:$HF_TOKEN@huggingface.co/omy2003/V.A.N.I
           git push --force hf HEAD:main
